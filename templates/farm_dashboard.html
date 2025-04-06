@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="farm-info card">
+        <h2>Farm Information</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="label">Name:</span>
+                <span class="value">{{ farm.name|default('Not Available') }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Location:</span>
+                <span class="value">{{ farm.location|default('Not Available') }}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Soil Type:</span>
+                <span class="value">{{ farm.soil_type|default('Not Available') }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="crops-section card">
+        <h2>Active Crops</h2>
+        <div class="crops-grid">
+            {% if crops %}
+                {% for crop in crops %}
+                <div class="crop-card" data-growth="{{ crop.growth_percentage|default(0) }}">
+                    <div class="crop-icon">
+                        <div class="plant-animation">
+                            <div class="stem"></div>
+                            <div class="leaves"></div>
+                            <div class="flower"></div>
+                        </div>
+                    </div>
+                    <h3>{{ crop.name|default('Unknown Crop') }}</h3>
+                    <div class="crop-details">
+                        <p>Planted: {{ crop.planting_date|default('Date not available') }}</p>
+                        <p>Expected Harvest: {{ crop.harvest_date|default('Date not available') }}</p>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: {{ crop.growth_percentage|default(0) }}%"></div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-crops-message">
+                    <p>No active crops available</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="market-trends card">
+        <h2>Market Trends</h2>
+        <div class="chart-container">
+            <div class="price-chart"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dashboard {
+        display: grid;
+        gap: 2rem;
+        margin: 2rem auto;
+        max-width: 1400px;
+        padding: 0 1rem;
+    }
+
+    .card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .label {
+        color: var(--text);
+        opacity: 0.7;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .value {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: var(--text);
+    }
+
+    .crops-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .crop-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .crop-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .crop-icon {
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+
+    .plant-animation {
+        position: relative;
+        width: 60px;
+        height: 80px;
+    }
+
+    .stem {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 4px;
+        background: var(--primary);
+        transform: translateX(-50%);
+        transform-origin: bottom;
+        animation: growStem 1.5s ease-out forwards;
+    }
+
+    .leaves {
+        position: absolute;
+        bottom: 30%;
+        left: 50%;
+        width: 40px;
+        height: 40px;
+        transform: translateX(-50%);
+        opacity: 0;
+        animation: growLeaves 1.5s ease-out 0.5s forwards;
+    }
+
+    .flower {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 50%;
+        transform: translateX(-50%) scale(0);
+        opacity: 0;
+        animation: bloomFlower 1s ease-out 1.5s forwards;
+    }
+
+    @keyframes growStem {
+        from { height: 0; }
+        to { height: 100%; }
+    }
+
+    @keyframes growLeaves {
+        0% {
+            opacity: 0;
+            transform: translateX(-50%) scale(0);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+    }
+
+    @keyframes bloomFlower {
+        0% {
+            opacity: 0;
+            transform: translateX(-50%) scale(0);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: rgba(46, 204, 113, 0.1);
+        border-radius: 4px;
+        overflow: hidden;
+        margin-top: 1rem;
+    }
+
+    .progress {
+        height: 100%;
+        background: var(--primary);
+        border-radius: 4px;
+        transition: width 0.8s ease-in-out;
+    }
+
+    .chart-container {
+        height: 300px;
+        margin-top: 1.5rem;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .price-chart {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        background: rgba(46, 204, 113, 0.05);
+    }
+
+    .no-crops-message {
+        text-align: center;
+        padding: 2rem;
+        color: var(--text);
+        opacity: 0.7;
+    }
+
+    @media (max-width: 768px) {
+        .dashboard {
+            gap: 1.5rem;
+            margin: 1rem auto;
+        }
+
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .crops-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}

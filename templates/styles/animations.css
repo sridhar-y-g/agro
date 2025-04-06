@@ -1,0 +1,199 @@
+/* Plant Growth Animations */
+.plant-animation {
+    --leaf-color: var(--primary);
+    --stem-color: #2ecc71;
+    --flower-color: #f1c40f;
+}
+
+.stem {
+    background: linear-gradient(to top, var(--stem-color), #27ae60);
+    transform-origin: bottom center;
+    animation: 
+        growStem 2.5s ease-out forwards,
+        stemSway 4s ease-in-out infinite;
+}
+
+.leaves {
+    background: 
+        radial-gradient(circle at 50% 50%, var(--leaf-color) 30%, transparent 70%) 0 0,
+        radial-gradient(circle at 50% 50%, var(--leaf-color) 30%, transparent 70%) 100% 0;
+    background-size: 50% 100%;
+    background-repeat: no-repeat;
+    transform-origin: center;
+    animation: 
+        growLeaves 2s ease-out 1s forwards,
+        leafSway 4s ease-in-out infinite;
+}
+
+.flower {
+    background: radial-gradient(circle at center, var(--flower-color) 60%, #f39c12 100%);
+    box-shadow: 0 0 10px rgba(241, 196, 15, 0.3);
+    animation: 
+        bloomFlower 1.5s ease-out 2s forwards,
+        flowerPulse 3s ease-in-out infinite;
+}
+
+@keyframes growStem {
+    0% {
+        height: 0;
+        opacity: 0;
+    }
+    100% {
+        height: 100%;
+        opacity: 1;
+    }
+}
+
+@keyframes stemSway {
+    0%, 100% {
+        transform: translateX(-50%) rotate(0deg);
+    }
+    50% {
+        transform: translateX(-50%) rotate(2deg);
+    }
+}
+
+@keyframes growLeaves {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) scale(0) rotate(-10deg);
+    }
+    50% {
+        opacity: 0.5;
+        transform: translateX(-50%) scale(0.5) rotate(5deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1) rotate(0deg);
+    }
+}
+
+@keyframes leafSway {
+    0%, 100% {
+        transform: translateX(-50%) rotate(-2deg);
+    }
+    50% {
+        transform: translateX(-50%) rotate(2deg);
+    }
+}
+
+@keyframes bloomFlower {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) scale(0) rotate(-45deg);
+    }
+    50% {
+        opacity: 0.7;
+        transform: translateX(-50%) scale(1.2) rotate(15deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1) rotate(0deg);
+    }
+}
+
+@keyframes flowerPulse {
+    0%, 100% {
+        transform: translateX(-50%) scale(1);
+        box-shadow: 0 0 10px rgba(241, 196, 15, 0.3);
+    }
+    50% {
+        transform: translateX(-50%) scale(1.05);
+        box-shadow: 0 0 15px rgba(241, 196, 15, 0.4);
+    }
+}
+
+/* Weather Effects */
+.weather-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.rain {
+    animation: rainEffect 0.3s linear infinite;
+    background: linear-gradient(transparent, #3498db);
+    opacity: 0.3;
+}
+
+.sunshine {
+    animation: sunshineEffect 4s ease-in-out infinite;
+    background: radial-gradient(circle at center, rgba(241, 196, 15, 0.2), transparent 70%);
+}
+
+@keyframes rainEffect {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+@keyframes sunshineEffect {
+    0%, 100% {
+        opacity: 0.2;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.4;
+        transform: scale(1.1);
+    }
+}
+
+/* Market Trend Animations */
+.price-chart {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.trend-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--primary);
+    transform-origin: left;
+    animation: drawTrendLine 2s ease-out forwards;
+}
+
+.trend-point {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--primary);
+    border-radius: 50%;
+    transform: scale(0);
+    animation: popPoint 0.3s ease-out forwards;
+}
+
+@keyframes drawTrendLine {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@keyframes popPoint {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

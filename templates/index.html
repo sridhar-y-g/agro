@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="welcome-section">
+    <h2>Welcome to Sustainable Farming AI System</h2>
+    <p>Your intelligent companion for sustainable agriculture</p>
+</div>
+
+<style>
+    .welcome-section {
+        text-align: center;
+        padding: 3rem 1rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin: 2rem auto;
+        max-width: 800px;
+    }
+
+    .welcome-section h2 {
+        color: var(--primary);
+        margin-bottom: 1rem;
+        font-size: 2.5rem;
+    }
+
+    .welcome-section p {
+        color: var(--text);
+        font-size: 1.2rem;
+        opacity: 0.8;
+    }
+</style>
+{% endblock %}

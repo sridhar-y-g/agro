@@ -1,0 +1,194 @@
+/* Market Trend Animations */
+.market-trends {
+    --chart-primary: var(--primary);
+    --chart-secondary: var(--secondary);
+    --chart-accent: #f1c40f;
+    --chart-grid: rgba(44, 62, 80, 0.1);
+}
+
+.price-chart {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: linear-gradient(to bottom, transparent 9px, var(--chart-grid) 10px);
+    background-size: 100% 50px;
+    padding: 20px;
+}
+
+.trend-line {
+    position: absolute;
+    height: 3px;
+    background: linear-gradient(90deg, var(--chart-primary), var(--chart-secondary));
+    transform-origin: left;
+    animation: drawLine 1.5s ease-out forwards;
+    z-index: 2;
+}
+
+.trend-point {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--chart-primary);
+    transform: translate(-50%, -50%) scale(0);
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
+    z-index: 3;
+    animation: popPoint 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.trend-tooltip {
+    position: absolute;
+    background: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-size: 0.9rem;
+    transform: translate(-50%, -130%) scale(0);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    z-index: 4;
+}
+
+.trend-point:hover .trend-tooltip {
+    transform: translate(-50%, -130%) scale(1);
+    opacity: 1;
+}
+
+.trend-indicator {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    animation: slideIn 0.5s ease-out forwards;
+}
+
+.trend-indicator::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--chart-primary);
+    animation: pulse 2s infinite;
+}
+
+.trend-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(to right, var(--chart-grid) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--chart-grid) 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.5;
+}
+
+@keyframes drawLine {
+    0% {
+        width: 0;
+        opacity: 0;
+    }
+    100% {
+        width: 100%;
+        opacity: 1;
+    }
+}
+
+@keyframes popPoint {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Interactive Elements */
+.market-controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.time-range-button {
+    padding: 6px 12px;
+    border: 1px solid var(--chart-grid);
+    border-radius: 15px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.time-range-button:hover,
+.time-range-button.active {
+    background: var(--chart-primary);
+    color: white;
+    border-color: var(--chart-primary);
+    transform: translateY(-1px);
+}
+
+/* Data Point Animations */
+.data-point {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--chart-accent);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease;
+}
+
+.data-point:hover {
+    transform: translate(-50%, -50%) scale(1.5);
+    box-shadow: 0 0 10px rgba(241, 196, 15, 0.4);
+}
+
+.data-line {
+    position: absolute;
+    height: 2px;
+    background: var(--chart-accent);
+    transform-origin: left;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+.data-line:hover {
+    opacity: 1;
+}

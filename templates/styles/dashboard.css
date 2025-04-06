@@ -1,0 +1,196 @@
+/* Dashboard Animations and Effects */
+.dashboard {
+    --weather-primary: #3498db;
+    --weather-secondary: #2980b9;
+    --success: #2ecc71;
+    --warning: #f1c40f;
+    --danger: #e74c3c;
+}
+
+/* Enhanced Card Animations */
+.card {
+    position: relative;
+    overflow: hidden;
+    transform-origin: center;
+    animation: cardAppear 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+}
+
+.card:hover::before {
+    transform: translateX(100%);
+}
+
+/* Interactive Info Grid */
+.info-item {
+    position: relative;
+    padding: 1rem;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(10px);
+    transform: translateY(0);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.info-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.info-item .value {
+    position: relative;
+    display: inline-block;
+}
+
+.info-item .value::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background: var(--primary);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.info-item:hover .value::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* Enhanced Weather Effects */
+.weather-effect {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.weather-rain {
+    background: 
+        repeating-linear-gradient(transparent, transparent 5px, var(--weather-primary) 5px, transparent 10px),
+        repeating-linear-gradient(90deg, transparent, transparent 5px, var(--weather-primary) 5px, transparent 10px);
+    animation: rainEffect 0.5s linear infinite;
+}
+
+.weather-sun {
+    background: radial-gradient(circle at center, var(--warning) 0%, transparent 60%);
+    animation: sunEffect 4s ease-in-out infinite;
+}
+
+/* Interactive Progress Bars */
+.progress-bar {
+    position: relative;
+    height: 8px;
+    background: rgba(46, 204, 113, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress {
+    position: relative;
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    border-radius: 4px;
+    animation: progressGrow 1.5s ease-out forwards;
+}
+
+.progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: progressShine 2s linear infinite;
+}
+
+/* Keyframe Animations */
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes rainEffect {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: -10px 10px;
+    }
+}
+
+@keyframes sunEffect {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.5;
+    }
+}
+
+@keyframes progressGrow {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@keyframes progressShine {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(200%);
+    }
+}
+
+/* Status Indicators */
+.status-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: statusPulse 2s infinite;
+}
+
+.status-success { background: var(--success); }
+.status-warning { background: var(--warning); }
+.status-danger { background: var(--danger); }
+
+@keyframes statusPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4);
+    }
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(46, 204, 113, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+    }
+}
